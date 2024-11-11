@@ -7,14 +7,8 @@
 #include <iostream>
 using namespace std;
 
-bool is_leap_year(int year) {
-    if ((year % 400 == 0) || (year % 4 == 0 && year % 100 != 0)) {
-        return true;
-    }
-    return false;
-}
-
 bool is_valid_date(int d, int m, int y) {
+    
     if (y < 1800 || y > 9999) {
         return false;
     }
@@ -23,7 +17,7 @@ bool is_valid_date(int d, int m, int y) {
         return false;
     }
 
-    int days_in_month;
+    int days_in_month = 0;
     switch (m) {
         case 1: case 3: case 5: case 7: case 8: case 10: case 12:
             days_in_month = 31;
@@ -32,7 +26,11 @@ bool is_valid_date(int d, int m, int y) {
             days_in_month = 30;
             break;
         case 2:
-            days_in_month = is_leap_year(y) ? 29 : 28;
+            if ((y % 4 == 0 && y % 100 != 0) || (y % 400 == 0)) {
+                days_in_month = 29;  // Año bisiesto
+            } else {
+                days_in_month = 28;  // Año no bisiesto
+            }
             break;
         default:
             return false;
